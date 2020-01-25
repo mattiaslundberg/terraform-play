@@ -83,6 +83,35 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
+resource "aws_security_group" "allow_http" {
+  name        = "allow_http"
+  description = "Allow http inbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
+  tags = {
+    Name = "Mattias"
+    Maintainer = "Mattias"
+    Service = "Hello"
+  }
+}
+
+
 resource "aws_key_pair" "mattias" {
   key_name   = "mattias-public-key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQHde4y3bjidC7XpXOLwqe5TiXHFXgHYECe612cE32E9zn4JiBV3J7fKCLUxCVK3+jClJEQr263V75YQwD1giR3nhB9rkEAdXJra506hmSSxEn4Gm/KnzUc411RcCggcBNNbUGQ3FxM7M7cMkS4iFJb2erkVHFc1Gc4+nSBrSxCWbCTS6DQVm4hE3eFP7IGvwzbPPj6YtBIxpPzQvhkVgjZtY9IZbCCp+Z7ctcQkbb0ox6USJHJmIYDaGEBbqMAesfZHhnG0cGDDRRzl5Xk/yLA7wpb40Grt1tCucXsUdXdJpD2xxiBYPtyK1j7kkU4Me4rNAMBZA6MVBADjj85q2j mattias"
