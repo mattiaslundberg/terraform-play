@@ -13,5 +13,6 @@ resource "aws_instance" "instance" {
   tags = {
     Name = "Mattias"
     Maintainer = "Mattias"
+    Service = "Hello"
   }
 }

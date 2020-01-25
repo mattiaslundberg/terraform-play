@@ -11,7 +11,7 @@ provider "aws" {
 
 provider "aws" {
   profile = "codelabs"
-  region     = "eu-west-1"
+  region     = "eu-central-1"
   alias = "ff"
 }
 
