@@ -1,5 +1,5 @@
 ---
-- hosts: tag_service_hello
+- hosts: all
   tasks:
     - name: Create file
       file:
