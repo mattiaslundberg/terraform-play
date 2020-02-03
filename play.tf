@@ -73,7 +73,6 @@ resource "aws_security_group" "allow_ssh_http" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -102,7 +101,7 @@ resource "aws_security_group" "allow_ssh_http" {
 
 resource "aws_key_pair" "mattias" {
   key_name   = "mattias-public-key"
-  public_key = "TODO"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyiSB9pScYyZmOJz/CQw5g4t4IHqY/XohQuzg/mWgPRgw8oBaV/AtLJ/Zk3uGhu4QJewS5S/QV9rmrLnt16w4t5Ow6jCrbK+MmuPQGDnXcNOn1WNm0vEj2sKXFZjsudwQqLxF7z/3RFebWXPkMe0gwcPJUwOjYBJUVyGIGljGWfibOSRXw4N9GS9Mq9Kvwj7H2j4WbBZROygjh74yLBTqKpjPdc3uWO5h29cnb3cr2830BTadM18SveqeBKB2obUqeIbkjD78KARJwnyuAFf1wXYh+aYj7O2wTlj6+h31Rz8iycZSzhs6lrtbrf8B4yxilw3iOqRQKH+q9sb0Gw7YJ mattias@mattias-XPS-13-9380"
 }
 
 # Ubuntu AMI: "ami-01d965b90792d9bf7"
