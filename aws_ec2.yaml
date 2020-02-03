@@ -4,4 +4,4 @@ regions:
   - eu-central-1
 filters:
   tag:Service: Hello
-aws_profile: codelabs
+aws_profile: topgolf-sweden-test
