@@ -18,6 +18,22 @@ resource "aws_subnet" "main_subnet" {
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 
+  availability_zone = "eu-north-1a"
+
+  tags = {
+    Name       = "Mattias"
+    Maintainer = "Mattias"
+    Service    = "Hello"
+  }
+}
+
+resource "aws_subnet" "cool_subnet" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
+  map_public_ip_on_launch = true
+
+  availability_zone = "eu-north-1b"
+
   tags = {
     Name       = "Mattias"
     Maintainer = "Mattias"
@@ -105,3 +121,47 @@ resource "aws_key_pair" "mattias" {
 }
 
 # Ubuntu AMI: "ami-01d965b90792d9bf7"
+resource "aws_instance" "instans" {
+  ami           = "ami-01d965b90792d9bf7"
+  instance_type = "t3.small"
+  vpc_security_group_ids = [
+    aws_security_group.allow_ssh_http.id
+  ]
+  subnet_id = element([aws_subnet.main_subnet.id, aws_subnet.cool_subnet.id], count.index)
+  key_name = aws_key_pair.mattias.key_name
+  count = 2
+
+  tags = {
+    Name       = "Mattias ${count.index}"
+    Maintainer = "Mattias"
+    Service    = "Hello"
+  }
+}
+
+resource "aws_lb" "cool_lb" {
+  name               = "cool-lb-tf"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.allow_ssh_http.id]
+  subnets            = [aws_subnet.main_subnet.id, aws_subnet.cool_subnet.id]
+
+  tags = {
+    Name       = "Mattias"
+    Maintainer = "Mattias"
+    Service    = "Hello"
+  }
+}
+
+resource "aws_lb_target_group" "cool_tg" {
+  name     = "cool-lb-tg-tf"
+  port     = 22
+  protocol = "TCP"
+  vpc_id   = aws_vpc.main.id
+}
+
+resource "aws_lb_target_group_attachment" "test" {
+  target_group_arn = aws_lb_target_group.cool_tg.arn
+  count = 2
+  target_id        = "${aws_instance.instans[count.index].id}"
+  port             = 22
+}
