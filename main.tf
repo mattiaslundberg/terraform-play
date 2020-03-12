@@ -15,12 +15,20 @@ provider "aws" {
   alias   = "ff"
 }
 
-module "sthlm-instance" {
-  source = "./instance-mod"
-  providers = {
-    aws = aws.sthlm
-  }
+resource "cloudamqp_instance" "rmq_bunny" {
+  name        = "mattias-terraform"
+  plan        = "lemur"
+  region      = "amazon-web-services::eu-north-1"
+  rmq_version = "3.7.18"
+  tags        = ["demo"]
 }
+
+# module "sthlm-instance" {
+#   source = "./instance-mod"
+#   providers = {
+#     aws = aws.sthlm
+#   }
+# }
 
 # module "ff-instance" {
 #   source = "./instance-mod"
